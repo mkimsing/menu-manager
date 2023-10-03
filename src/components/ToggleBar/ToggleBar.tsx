@@ -27,9 +27,11 @@ export default function ToggleBar({ options = weekdays }: Props) {
     event: React.MouseEvent<HTMLElement>,
     newOption: string
   ) => {
-    setSelected(
-      options.find((option) => option.value === newOption) || options[0]
-    );
+    if (newOption !== null) {
+      setSelected(
+        options.find((option) => option.value === newOption) || options[0]
+      );
+    }
   };
 
   return (
