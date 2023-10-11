@@ -16,7 +16,8 @@
     "@mui/material": "^5.14.11",
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-swipeable-views": "^0.14.0"
   },
   "devDependencies": {
     "@types/node": "latest",
