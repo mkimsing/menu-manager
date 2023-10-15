@@ -25,7 +25,6 @@ export default function ColorTabs({ tabs, activeTabValue, onChange }: Props) {
       onChange={handleChange}
       textColor="secondary"
       indicatorColor="secondary"
-      aria-label="secondary tabs example"
       variant="fullWidth"
       centered
     >

@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material/styles";
 
 type Props = {
   children?: React.ReactNode;
-  handleChangeIndex: (index: number, indexLatest: number, meta: any) => void;
+  handleChangeIndex?: (index: number, indexLatest: number, meta: any) => void;
   activeTabIndex: number;
 };
 export default function OrderTabs({

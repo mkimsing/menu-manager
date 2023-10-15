@@ -5,6 +5,11 @@ import Tabs from "@/components/TabBar";
 import React, { useState } from "react";
 import TabBar from "@/components/TabBar";
 import OrderTabs from "./components/OrderTabs";
+
+import { WeeklyMealData } from "@/api/data";
+import Tab from "./components/Tab";
+import { WeeklyMealChoices } from "@/api/types";
+
 type Weekday = {
   label: string;
   value: string;
@@ -19,32 +24,6 @@ const weekdays: Weekday[] = [
   { label: "Sunday", value: "Sunday" },
 ];
 
-type MealOption = {
-  any;
-  // imageURL: string;
-  // name: string;
-  // description: string;
-};
-
-type DailyChoices = {
-  breakfast: MealOption[];
-  lunch: MealOption[];
-  dinner: MealOption[];
-};
-
-enum DayOfWeek {
-  Sunday = "Sun",
-  Monday = "Mon",
-  Tuesday = "Tues",
-  Wednesday = "Wed",
-  Thursday = "Thurs",
-  Friday = "Fri",
-  Saturday = "Sat",
-}
-type WeeklyMeals = {
-  [key in DayOfWeek]: DailyChoices;
-};
-
 const Page = () => {
   const [activeTab, setActiveTab] = useState(weekdays[0]);
 
@@ -53,6 +32,7 @@ const Page = () => {
       weekdays.find((weekday) => weekday.value === newValue) || weekdays[0]
     );
   };
+
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
       <h1>Order</h1>
@@ -61,8 +41,24 @@ const Page = () => {
         activeTabValue={activeTab.value}
         onChange={onChangeTab}
       />
-      <OrderTabs MealData={} />
-      <MealCard />
+      <OrderTabs
+        activeTabIndex={weekdays.findIndex(
+          (weekday) => weekday.value === activeTab.value
+        )}
+      >
+        {Object.keys(WeeklyMealData).map((key, index) => {
+          return (
+            <Tab
+              key={key + index}
+              index={index}
+              activeIndex={weekdays.findIndex(
+                (weekday) => weekday.value === activeTab.value
+              )}
+              dailyChoices={WeeklyMealData[key as keyof WeeklyMealChoices]}
+            />
+          );
+        })}
+      </OrderTabs>
     </main>
   );
 };
