@@ -3,39 +3,58 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Link from "next/link";
-export default function DailySelection() {
+import { DayOfWeek, SelectedMealChoices } from "@/api/types";
+import { Box } from "@mui/material";
+
+type Props = {
+  dayOfWeek: keyof typeof DayOfWeek;
+  selectedDailyOption: SelectedMealChoices;
+};
+export default function DailySelection({
+  dayOfWeek,
+  selectedDailyOption,
+}: Props) {
   return (
     <Link
       href="/monday"
       style={{
         color: "inherit",
         textDecoration: "inherit",
+        display: "flex",
+        width: "100%",
       }}
     >
-      <div className="flex items-center shadow-md bg-white rounded-lg border-black border-1 py-4 px-6">
-        <div>
+      <div className="w-full flex items-center bg-white shadow-md rounded-lg border-solid border-2 border-indigo-600 py-4 px-6">
+        <div className="flex-grow">
           <Typography variant="h5" className="mb-4">
-            Monday
+            {dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1)}
           </Typography>
-          <div className="flex items-center">
-            <Image
-              src="https://picsum.photos/200/300"
-              alt="food thumbnail"
-              width="50"
-              height="50"
-              style={{
-                objectFit: "cover",
-                width: 50,
-                height: 50,
-              }}
-            />
-            <div className="mx-8">
-              <Typography variant="subtitle2">Chicken Pesto Pasta</Typography>
-              <Typography variant="body1">
-                Here is some description of a food item
-              </Typography>
-            </div>
-          </div>
+          {Object.keys(selectedDailyOption).map((key) => {
+            const { imageURL, name, description } =
+              selectedDailyOption[key as keyof SelectedMealChoices];
+
+            return (
+              <Box key={key + name} className="my-4">
+                <div className="flex items-center">
+                  <Image
+                    src={imageURL}
+                    alt="food thumbnail"
+                    width="50"
+                    height="50"
+                    style={{
+                      objectFit: "cover",
+                      width: 50,
+                      height: 50,
+                    }}
+                  />
+                  <div className="mx-8">
+                    <Typography variant="subtitle2">{name}</Typography>
+                    <Typography variant="body1">{description}</Typography>
+                  </div>
+                </div>
+              </Box>
+            );
+          })}
         </div>
         <ArrowForwardIosIcon fontSize="medium" />
       </div>

@@ -1,6 +1,9 @@
 import Image from "next/image";
-import Typography from "@mui/material/Typography";
 import DailySelection from "@/components/DailySelection";
+import { WeeklyMealData } from "@/api/data";
+import { WeeklyMealChoices } from "@/api/types";
+import { Box, Typography } from "@mui/material";
+
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center">
@@ -15,7 +18,30 @@ export default function Home() {
           </Typography>
         </div>
       </div>
-      <DailySelection />
+      <Box className="mx-4">
+        <Typography variant="h4" className="mr-auto mt-4">
+          Your selections for this week
+        </Typography>
+        {Object.keys(WeeklyMealData).map((key) => {
+          return (
+            <Box key={key} className="my-4 max-w-3xl w-full ">
+              <DailySelection
+                dayOfWeek={key as keyof WeeklyMealChoices}
+                selectedDailyOption={{
+                  breakfast:
+                    WeeklyMealData[key as keyof WeeklyMealChoices][
+                      "breakfast"
+                    ][0],
+                  lunch:
+                    WeeklyMealData[key as keyof WeeklyMealChoices]["lunch"][0],
+                  dinner:
+                    WeeklyMealData[key as keyof WeeklyMealChoices]["dinner"][0],
+                }}
+              />
+            </Box>
+          );
+        })}
+      </Box>
     </main>
   );
 }

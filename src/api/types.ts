@@ -4,13 +4,19 @@ export type MealChoice = {
   description: string;
 };
 
-export type DailyChoices = {
+export type DailyMealChoices = {
   breakfast: MealChoice[];
   lunch: MealChoice[];
   dinner: MealChoice[];
 };
 
-enum DayOfWeek {
+export type SelectedMealChoices = {
+  breakfast: MealChoice;
+  lunch: MealChoice;
+  dinner: MealChoice;
+};
+
+export enum DayOfWeek {
   Sunday = "Sunday",
   Monday = "Monday",
   Tuesday = "Tuesday",
@@ -21,5 +27,5 @@ enum DayOfWeek {
 }
 
 export type WeeklyMealChoices = {
-  [key in DayOfWeek]: DailyChoices;
+  [key in DayOfWeek]: DailyMealChoices;
 };
