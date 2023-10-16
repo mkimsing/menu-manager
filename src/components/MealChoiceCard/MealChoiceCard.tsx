@@ -5,12 +5,19 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import CheckIcon from "@mui/icons-material/Check";
+import { MealChoice } from "@/api/types";
 
 type Props = {
   selected: boolean;
   handleOnClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  meal: MealChoice;
 };
-export default function MealChoiceCard({ selected, handleOnClick }: Props) {
+export default function MealChoiceCard({
+  selected,
+  handleOnClick,
+  meal,
+}: Props) {
+  const { imageURL, name, description } = meal;
   return (
     <div
       onClick={(event) => {
@@ -30,7 +37,7 @@ export default function MealChoiceCard({ selected, handleOnClick }: Props) {
         )}
         <div className="flex items-center">
           <Image
-            src="https://picsum.photos/200/300"
+            src={imageURL}
             alt="food thumbnail"
             width="150"
             height="150"
@@ -41,11 +48,8 @@ export default function MealChoiceCard({ selected, handleOnClick }: Props) {
             }}
           />
           <div className="ml-8 mr-14">
-            <Typography variant="h6">Chicken Pesto Pasta</Typography>
-            <Typography variant="body1">
-              Here is some description of a food item. Im sure it is delicious,
-              you should definitely select this one. Its also probably healthy
-            </Typography>
+            <Typography variant="h6">{name}</Typography>
+            <Typography variant="body1">{description}</Typography>
           </div>
         </div>
         <div className="mt-4 flex justify-center w-full">

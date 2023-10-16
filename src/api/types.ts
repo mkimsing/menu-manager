@@ -15,6 +15,11 @@ export type SelectedMealChoices = {
   lunch: MealChoice;
   dinner: MealChoice;
 };
+export enum MealsInDay {
+  breakfast = "breakfast",
+  lunch = "lunch",
+  dinner = "dinner",
+}
 
 export enum DayOfWeek {
   Sunday = "Sunday",

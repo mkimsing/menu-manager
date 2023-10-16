@@ -16,7 +16,12 @@ export default function DailySelection({
 }: Props) {
   return (
     <Link
-      href="/monday"
+      href={{
+        pathname: "/monday",
+        query: {
+          dayOfWeek: dayOfWeek,
+        },
+      }}
       style={{
         color: "inherit",
         textDecoration: "inherit",
