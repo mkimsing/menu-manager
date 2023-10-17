@@ -1,4 +1,5 @@
 export type MealChoice = {
+  id: number | string;
   imageURL: string;
   name: string;
   description: string;

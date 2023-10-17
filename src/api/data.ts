@@ -4,11 +4,13 @@ export const WeeklyMealData: WeeklyMealChoices = {
   Monday: {
     breakfast: [
       {
+        id: 0,
         imageURL: "https://picsum.photos/id/163/200/300",
         name: "Scrambled Eggs",
         description: "Fluffy scrambled eggs seasoned with salt and pepper.",
       },
       {
+        id: 1,
         imageURL: "https://picsum.photos/id/164/200/300",
         name: "Pancakes with Blueberries",
         description: "Fluffy pancakes topped with fresh blueberries and syrup.",
@@ -16,12 +18,14 @@ export const WeeklyMealData: WeeklyMealChoices = {
     ],
     lunch: [
       {
+        id: 2,
         imageURL: "https://picsum.photos/id/165/200/300",
         name: "Chicken Caesar Salad",
         description:
           "Grilled chicken, romaine lettuce, croutons, and Caesar dressing.",
       },
       {
+        id: 3,
         imageURL: "https://picsum.photos/id/166/200/300",
         name: "Vegetable Stir-Fry",
         description: "Sautéed vegetables and tofu in a savory soy-based sauce.",
@@ -29,12 +33,14 @@ export const WeeklyMealData: WeeklyMealChoices = {
     ],
     dinner: [
       {
+        id: 4,
         imageURL: "https://picsum.photos/id/167/200/300",
         name: "Spaghetti Bolognese",
         description:
           "Pasta with a rich tomato and meat sauce, garnished with Parmesan cheese.",
       },
       {
+        id: 5,
         imageURL: "https://picsum.photos/id/168/200/300",
         name: "Grilled Salmon",
         description:
@@ -45,11 +51,13 @@ export const WeeklyMealData: WeeklyMealChoices = {
   Tuesday: {
     breakfast: [
       {
+        id: 6,
         imageURL: "https://picsum.photos/id/169/200/300",
         name: "Yogurt Parfait",
         description: "Layered yogurt with granola, fresh berries, and honey.",
       },
       {
+        id: 7,
         imageURL: "https://picsum.photos/id/170/200/300",
         name: "Oatmeal with Berries",
         description:
@@ -58,12 +66,14 @@ export const WeeklyMealData: WeeklyMealChoices = {
     ],
     lunch: [
       {
+        id: 8,
         imageURL: "https://picsum.photos/id/171/200/300",
         name: "Mushroom Risotto",
         description:
           "Creamy risotto with sautéed mushrooms and Parmesan cheese.",
       },
       {
+        id: 9,
         imageURL: "https://picsum.photos/id/172/200/300",
         name: "Greek Salad",
         description: "Cucumber, tomato, olives, and feta with Greek dressing.",
@@ -71,11 +81,13 @@ export const WeeklyMealData: WeeklyMealChoices = {
     ],
     dinner: [
       {
+        id: 10,
         imageURL: "https://picsum.photos/id/173/200/300",
         name: "Barbecue Ribs",
         description: "Tender barbecue ribs with a smoky, tangy sauce.",
       },
       {
+        id: 11,
         imageURL: "https://picsum.photos/id/174/200/300",
         name: "Salmon Teriyaki",
         description:
@@ -86,12 +98,14 @@ export const WeeklyMealData: WeeklyMealChoices = {
   Wednesday: {
     breakfast: [
       {
+        id: 12,
         imageURL: "https://picsum.photos/id/175/200/300",
         name: "Fruit Smoothie",
         description:
           "A refreshing fruit smoothie with banana, strawberry, and yogurt.",
       },
       {
+        id: 13,
         imageURL: "https://picsum.photos/id/176/200/300",
         name: "Eggs Benedict",
         description:
@@ -100,12 +114,14 @@ export const WeeklyMealData: WeeklyMealChoices = {
     ],
     lunch: [
       {
+        id: 14,
         imageURL: "https://picsum.photos/id/177/200/300",
         name: "Caesar Wrap",
         description:
           "Grilled chicken, romaine lettuce, croutons, and Caesar dressing in a tortilla.",
       },
       {
+        id: 15,
         imageURL: "https://picsum.photos/id/178/200/300",
         name: "Chicken Noodle Soup",
         description:
@@ -114,12 +130,14 @@ export const WeeklyMealData: WeeklyMealChoices = {
     ],
     dinner: [
       {
+        id: 16,
         imageURL: "https://picsum.photos/id/179/200/300",
         name: "Margherita Pizza",
         description:
           "Thin-crust pizza topped with tomato sauce, mozzarella, fresh basil, and olive oil.",
       },
       {
+        id: 17,
         imageURL: "https://picsum.photos/id/180/200/300",
         name: "Grilled Vegetable Platter",
         description:
@@ -130,12 +148,14 @@ export const WeeklyMealData: WeeklyMealChoices = {
   Thursday: {
     breakfast: [
       {
+        id: 18,
         imageURL: "https://picsum.photos/id/181/200/300",
         name: "Smoothie Bowl",
         description:
           "A colorful smoothie bowl topped with granola, coconut, and fresh fruits.",
       },
       {
+        id: 19,
         imageURL: "https://picsum.photos/id/182/200/300",
         name: "Breakfast Burrito",
         description: "Scrambled eggs, bacon, and salsa wrapped in a tortilla.",
@@ -143,12 +163,14 @@ export const WeeklyMealData: WeeklyMealChoices = {
     ],
     lunch: [
       {
+        id: 20,
         imageURL: "https://picsum.photos/id/183/200/300",
         name: "Quinoa Salad",
         description:
           "Healthy quinoa salad with mixed vegetables and a lemon vinaigrette.",
       },
       {
+        id: 21,
         imageURL: "https://picsum.photos/id/184/200/300",
         name: "Beef Stir-Fry",
         description:
@@ -157,12 +179,14 @@ export const WeeklyMealData: WeeklyMealChoices = {
     ],
     dinner: [
       {
+        id: 22,
         imageURL: "https://picsum.photos/id/185/200/300",
         name: "Chicken Alfredo",
         description:
           "Creamy fettuccine pasta with grilled chicken and Parmesan cheese.",
       },
       {
+        id: 23,
         imageURL: "https://picsum.photos/id/186/200/300",
         name: "Vegetable Lasagna",
         description:
@@ -173,12 +197,14 @@ export const WeeklyMealData: WeeklyMealChoices = {
   Friday: {
     breakfast: [
       {
+        id: 24,
         imageURL: "https://picsum.photos/id/187/200/300",
         name: "Waffles",
         description:
           "Crispy waffles served with maple syrup and a dollop of whipped cream.",
       },
       {
+        id: 25,
         imageURL: "https://picsum.photos/id/188/200/300",
         name: "Avocado Toast",
         description:
@@ -187,12 +213,14 @@ export const WeeklyMealData: WeeklyMealChoices = {
     ],
     lunch: [
       {
+        id: 26,
         imageURL: "https://picsum.photos/id/189/200/300",
         name: "Shrimp Scampi",
         description:
           "Garlic and butter sautéed shrimp served over a bed of linguine.",
       },
       {
+        id: 27,
         imageURL: "https://picsum.photos/id/190/200/300",
         name: "Margherita Sandwich",
         description:
@@ -201,12 +229,14 @@ export const WeeklyMealData: WeeklyMealChoices = {
     ],
     dinner: [
       {
+        id: 28,
         imageURL: "https://picsum.photos/id/191/200/300",
         name: "Beef Tacos",
         description:
           "Soft corn tortillas filled with seasoned beef, lettuce, cheese, and salsa.",
       },
       {
+        id: 29,
         imageURL: "https://picsum.photos/id/192/200/300",
         name: "Sushi Platter",
         description:
@@ -217,11 +247,13 @@ export const WeeklyMealData: WeeklyMealChoices = {
   Saturday: {
     breakfast: [
       {
-        imageURL: "https://picsum.photos/id/193/200/300",
-        name: "Pancakes with Syrup",
-        description: "Fluffy pancakes drizzled with warm maple syrup.",
+        id: 1,
+        imageURL: "https://picsum.photos/id/164/200/300",
+        name: "Pancakes with Blueberries",
+        description: "Fluffy pancakes topped with fresh blueberries and syrup.",
       },
       {
+        id: 6,
         imageURL: "https://picsum.photos/id/194/200/300",
         name: "Yogurt Parfait",
         description: "Layered yogurt with granola and mixed berries.",
@@ -229,12 +261,14 @@ export const WeeklyMealData: WeeklyMealChoices = {
     ],
     lunch: [
       {
+        id: 30,
         imageURL: "https://picsum.photos/id/195/200/300",
         name: "Caprese Salad",
         description:
           "Tomato, mozzarella, and basil salad drizzled with balsamic glaze.",
       },
       {
+        id: 31,
         imageURL: "https://picsum.photos/id/196/200/300",
         name: "Chicken Quesadillas",
         description:
@@ -243,12 +277,14 @@ export const WeeklyMealData: WeeklyMealChoices = {
     ],
     dinner: [
       {
+        id: 32,
         imageURL: "https://picsum.photos/id/197/200/300",
         name: "Margarita Pizza",
         description:
           "Thin-crust pizza topped with tomato sauce, mozzarella, fresh basil, and olive oil.",
       },
       {
+        id: 33,
         imageURL: "https://picsum.photos/id/198/200/300",
         name: "Grilled Shrimp",
         description: "Grilled shrimp skewers with a lemon and herb marinade.",
@@ -258,39 +294,46 @@ export const WeeklyMealData: WeeklyMealChoices = {
   Sunday: {
     breakfast: [
       {
+        id: 34,
         imageURL: "https://picsum.photos/id/199/200/300",
         name: "French Toast",
         description:
           "Slices of bread soaked in a mixture of eggs and milk, cooked to golden perfection.",
       },
       {
-        imageURL: "https://picsum.photos/id/200/200/300",
+        id: 12,
+        imageURL: "https://picsum.photos/id/175/200/300",
         name: "Fruit Smoothie",
         description:
-          "A refreshing fruit smoothie with a variety of fresh fruits and yogurt.",
+          "A refreshing fruit smoothie with banana, strawberry, and yogurt.",
       },
     ],
     lunch: [
       {
-        imageURL: "https://picsum.photos/id/201/200/300",
-        name: "Caesar Salad",
-        description: "Crisp romaine lettuce, croutons, and Caesar dressing.",
+        id: 2,
+        imageURL: "https://picsum.photos/id/165/200/300",
+        name: "Chicken Caesar Salad",
+        description:
+          "Grilled chicken, romaine lettuce, croutons, and Caesar dressing.",
       },
       {
-        imageURL: "https://picsum.photos/id/202/200/300",
+        id: 21,
+        imageURL: "https://picsum.photos/id/184/200/300",
         name: "Beef Stir-Fry",
         description:
-          "Tender beef and mixed vegetables stir-fried in a savory sauce.",
+          "Thinly sliced beef stir-fried with mixed vegetables in a savory sauce.",
       },
     ],
     dinner: [
       {
-        imageURL: "https://picsum.photos/id/203/200/300",
+        id: 16,
+        imageURL: "https://picsum.photos/id/179/200/300",
         name: "Margherita Pizza",
         description:
           "Thin-crust pizza topped with tomato sauce, mozzarella, fresh basil, and olive oil.",
       },
       {
+        id: 35,
         imageURL: "https://picsum.photos/id/204/200/300",
         name: "Chicken Alfredo",
         description:

@@ -13,13 +13,19 @@ import {
   AccordionDetails,
   AccordionSummary,
   Typography,
+  Button,
 } from "@mui/material";
 
 import MealChoiceCard from "@/components/MealChoiceCard";
 import MealDetailsModal from "@/components/MealDetailsModal";
 
 import { WeeklyMealData } from "@/api/data";
-import { DailyMealChoices, MealsInDay, WeeklyMealChoices } from "@/api/types";
+import {
+  DailyMealChoices,
+  MealChoice,
+  MealsInDay,
+  WeeklyMealChoices,
+} from "@/api/types";
 
 const IconMealMapping: { [key in MealsInDay]: JSX.Element } = {
   breakfast: (
@@ -38,8 +44,23 @@ const Page = () => {
   const dayOfWeek = searchParams.get("dayOfWeek");
   const dailyMealData = WeeklyMealData[dayOfWeek as keyof WeeklyMealChoices];
 
+  //Inital fetch
+  const initialMeals: {
+    [key in keyof DailyMealChoices]: MealChoice | undefined;
+  } = {
+    breakfast: undefined,
+    lunch: undefined,
+    dinner: undefined,
+  };
+  Object.keys(dailyMealData).forEach(
+    (key) =>
+      (initialMeals[key as keyof DailyMealChoices] =
+        dailyMealData[key as keyof DailyMealChoices][0])
+  );
+
+  console.log(initialMeals);
   //Handle selected state
-  const [selected, setSelected] = useState(0);
+  const [selectedMeals, setSelectedMeals] = useState(initialMeals);
 
   //Handle state for modal
   const [open, setOpen] = useState(false);
@@ -50,6 +71,13 @@ const Page = () => {
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     handleOpen();
+  };
+
+  const onHandleSelect = (meal: MealChoice, mealKey: keyof MealsInDay) => {
+    setSelectedMeals({
+      ...selectedMeals,
+      [mealKey]: meal,
+    });
   };
 
   return (
@@ -78,13 +106,21 @@ const Page = () => {
                   <Typography className="mt-1" variant="h5">
                     {mealName}
                   </Typography>
+                  <Typography className="mt-1 ml-10" variant="h5">
+                    {selectedMeals[key as keyof DailyMealChoices]?.name}
+                  </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   {dailyMealData[key as keyof DailyMealChoices].map((meal) => {
+                    const isSelected =
+                      selectedMeals[key as keyof DailyMealChoices]?.id ===
+                      meal.id;
                     return (
                       <MealChoiceCard
-                        key={key + meal.name}
-                        selected={true}
+                        key={key + meal.id}
+                        mealKey={key as keyof MealsInDay}
+                        handleOnSelect={onHandleSelect}
+                        selected={isSelected}
                         handleOnClick={handleOnClick}
                         meal={meal}
                       />
@@ -95,6 +131,7 @@ const Page = () => {
             </Box>
           );
         })}
+        <Button>Submit</Button>
       </div>
       <MealDetailsModal isOpen={open} handleClose={handleClose} />
     </main>

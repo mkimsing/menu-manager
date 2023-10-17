@@ -5,17 +5,21 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import CheckIcon from "@mui/icons-material/Check";
-import { MealChoice } from "@/api/types";
+import { MealChoice, MealsInDay } from "@/api/types";
 
 type Props = {
   selected: boolean;
   handleOnClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  handleOnSelect: (meal: MealChoice, mealKey: keyof MealsInDay) => void;
   meal: MealChoice;
+  mealKey: keyof MealsInDay;
 };
 export default function MealChoiceCard({
   selected,
   handleOnClick,
+  handleOnSelect,
   meal,
+  mealKey,
 }: Props) {
   const { imageURL, name, description } = meal;
   return (
@@ -60,6 +64,8 @@ export default function MealChoiceCard({
             onClick={(event) => {
               // Prevent outer div onClick when selecting
               event.stopPropagation();
+
+              handleOnSelect(meal, mealKey);
             }}
           >
             Select
