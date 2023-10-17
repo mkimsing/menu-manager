@@ -7,6 +7,9 @@ export default function NavBar() {
       <Link href="/" className="mr-12">
         Home
       </Link>
+      <Link href="/order" className="mr-12">
+        Order
+      </Link>
       <Link href="/history">History</Link>
     </header>
   );

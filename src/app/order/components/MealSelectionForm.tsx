@@ -25,6 +25,7 @@ import {
   MealChoice,
   MealsInDay,
   WeeklyMealChoices,
+  DaysOfWeek,
 } from "@/api/types";
 
 const IconMealMapping: { [key in MealsInDay]: JSX.Element } = {
@@ -39,10 +40,13 @@ const IconMealMapping: { [key in MealsInDay]: JSX.Element } = {
   ),
 };
 
-const Page = () => {
-  const searchParams = useSearchParams();
-  const dayOfWeek = searchParams.get("dayOfWeek");
+type Props = {
+  dayOfWeek: keyof DaysOfWeek;
+};
+
+const MealSelectionForm = ({ dayOfWeek }: Props) => {
   const dailyMealData = WeeklyMealData[dayOfWeek as keyof WeeklyMealChoices];
+  console.log(dayOfWeek);
 
   //Inital fetch
   const initialMeals: {
@@ -81,14 +85,6 @@ const Page = () => {
 
   return (
     <main className="flex min-h-screen flex-col items-center">
-      <div className="relative w-screen h-[30vh]">
-        <Image src="https://picsum.photos/id/196/200/300" alt="Hero" fill />
-        <div className="relative flex flex-col justify-center items-center h-full">
-          <Typography color="white" variant="h3">
-            {dayOfWeek}
-          </Typography>
-        </div>
-      </div>
       <div className="mx-8">
         {Object.keys(dailyMealData).map((key) => {
           const mealName = key[0].toUpperCase() + key.slice(1);
@@ -130,10 +126,9 @@ const Page = () => {
             </Box>
           );
         })}
-        <Button>Submit</Button>
       </div>
       <MealDetailsModal isOpen={open} handleClose={handleClose} />
     </main>
   );
 };
-export default Page;
+export default MealSelectionForm;

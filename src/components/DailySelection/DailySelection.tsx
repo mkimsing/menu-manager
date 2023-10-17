@@ -3,11 +3,11 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Link from "next/link";
-import { DayOfWeek, SelectedMealChoices } from "@/api/types";
+import { DaysOfWeek, SelectedMealChoices } from "@/api/types";
 import { Box } from "@mui/material";
 
 type Props = {
-  dayOfWeek: keyof typeof DayOfWeek;
+  dayOfWeek: keyof typeof DaysOfWeek;
   selectedDailyOption: SelectedMealChoices;
 };
 export default function DailySelection({

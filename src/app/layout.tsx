@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
+import { Box } from "@mui/material";
 import { Inter } from "next/font/google";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -26,7 +27,7 @@ export default function RootLayout({
       <StyledEngineProvider injectFirst>
         <body className={inter.className}>
           <Navbar />
-          {children}
+          <Box className={"pt-12"}>{children}</Box>
         </body>
       </StyledEngineProvider>
     </html>

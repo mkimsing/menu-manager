@@ -22,7 +22,7 @@ export enum MealsInDay {
   dinner = "dinner",
 }
 
-export enum DayOfWeek {
+export enum DaysOfWeek {
   Sunday = "Sunday",
   Monday = "Monday",
   Tuesday = "Tuesday",
@@ -33,5 +33,5 @@ export enum DayOfWeek {
 }
 
 export type WeeklyMealChoices = {
-  [key in DayOfWeek]: DailyMealChoices;
+  [key in DaysOfWeek]: DailyMealChoices;
 };
