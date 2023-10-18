@@ -1,18 +1,46 @@
 "use client";
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { DaysOfWeek } from "@/api/types";
 import Image from "next/image";
 import MealSelectionForm from "./components/MealSelectionForm";
+import {
+  MealsInDay,
+  DaysOfWeek,
+  MealChoice,
+  SelectedDailyMealChoices,
+} from "@/api/types";
+import { WeeklyMealData } from "@/api/data";
 const steps = Object.keys(DaysOfWeek);
 
+// Initialize the empty weekly order object
+
+type WeeklySelection = {
+  [key in DaysOfWeek]: SelectedDailyMealChoices;
+};
+const initWeeklySelection = {} as WeeklySelection;
+Object.keys(DaysOfWeek).forEach((key) => {
+  initWeeklySelection[key as keyof typeof DaysOfWeek] = {
+    breakfast: undefined,
+    lunch: undefined,
+    dinner: undefined,
+  };
+});
+
 export default function Page() {
-  const [activeStep, setActiveStep] = React.useState(0);
+  //Handle selected state
+  const [weeklySelection, setWeeklySelection] = useState(initWeeklySelection);
+
+  const [activeStep, setActiveStep] = useState(0);
+  const [dayofWeek, setDayOfWeek] = useState(DaysOfWeek.Monday as string);
+  useEffect(() => {
+    setDayOfWeek(Object.keys(DaysOfWeek)[activeStep]);
+  }, [activeStep]);
+
   const [skipped, setSkipped] = React.useState(new Set<number>());
 
   const isStepOptional = (step: number) => {
@@ -55,6 +83,16 @@ export default function Page() {
 
   const handleReset = () => {
     setActiveStep(0);
+  };
+
+  const onHandleSelect = (meal: MealChoice, mealKey: keyof MealsInDay) => {
+    setWeeklySelection({
+      ...weeklySelection,
+      [dayofWeek]: {
+        ...weeklySelection[dayofWeek as keyof WeeklySelection],
+        [mealKey]: meal,
+      },
+    });
   };
 
   return (
@@ -116,9 +154,15 @@ export default function Page() {
               </Button>
             </Box>
             <MealSelectionForm
-              dayOfWeek={
-                Object.keys(DaysOfWeek)[activeStep] as keyof DaysOfWeek
+              dailyMealData={
+                WeeklyMealData[dayofWeek as keyof typeof WeeklyMealData]
               }
+              selected={
+                weeklySelection[
+                  dayofWeek as keyof WeeklySelection
+                ] as SelectedDailyMealChoices
+              }
+              onSelect={onHandleSelect}
             />
           </React.Fragment>
         )}

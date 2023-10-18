@@ -5,18 +5,16 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import CheckIcon from "@mui/icons-material/Check";
-import { MealChoice, MealsInDay } from "@/api/types";
+import { MealChoice, MealsInDay, DaysOfWeek } from "@/api/types";
 
 type Props = {
   selected: boolean;
-  handleOnClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   handleOnSelect: (meal: MealChoice, mealKey: keyof MealsInDay) => void;
   meal: MealChoice;
   mealKey: keyof MealsInDay;
 };
 export default function MealChoiceCard({
   selected,
-  handleOnClick,
   handleOnSelect,
   meal,
   mealKey,
@@ -25,9 +23,12 @@ export default function MealChoiceCard({
   return (
     <div
       onClick={(event) => {
-        handleOnClick(event);
+        handleOnSelect(meal, mealKey);
       }}
-      className="relative flex items-center shadow-md bg-white rounded-lg border-black border-1 py-4 px-6 my-3"
+      className={`${
+        selected ? "bg-blue-50 border-blue-200" : "border-gray-300 bg-gray-50"
+      } relative flex items-center shadow-md border border-solid 
+      rounded-lg  py-4 px-6 my-3`}
     >
       <div>
         {selected && (

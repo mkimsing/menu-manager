@@ -11,10 +11,10 @@ export type DailyMealChoices = {
   dinner: MealChoice[];
 };
 
-export type SelectedMealChoices = {
-  breakfast: MealChoice;
-  lunch: MealChoice;
-  dinner: MealChoice;
+export type SelectedDailyMealChoices = {
+  breakfast: MealChoice | undefined;
+  lunch: MealChoice | undefined;
+  dinner: MealChoice | undefined;
 };
 export enum MealsInDay {
   breakfast = "breakfast",
@@ -23,13 +23,13 @@ export enum MealsInDay {
 }
 
 export enum DaysOfWeek {
-  Sunday = "Sunday",
   Monday = "Monday",
   Tuesday = "Tuesday",
   Wednesday = "Wednesday",
   Thursday = "Thursday",
   Friday = "Friday",
   Saturday = "Saturday",
+  Sunday = "Sunday",
 }
 
 export type WeeklyMealChoices = {

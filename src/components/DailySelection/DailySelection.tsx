@@ -3,12 +3,12 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Link from "next/link";
-import { DaysOfWeek, SelectedMealChoices } from "@/api/types";
+import { DaysOfWeek, SelectedDailyMealChoices } from "@/api/types";
 import { Box } from "@mui/material";
 
 type Props = {
   dayOfWeek: keyof typeof DaysOfWeek;
-  selectedDailyOption: SelectedMealChoices;
+  selectedDailyOption: SelectedDailyMealChoices;
 };
 export default function DailySelection({
   dayOfWeek,
@@ -36,22 +36,25 @@ export default function DailySelection({
           </Typography>
           {Object.keys(selectedDailyOption).map((key) => {
             const { imageURL, name, description } =
-              selectedDailyOption[key as keyof SelectedMealChoices];
-
+              selectedDailyOption[key as keyof SelectedDailyMealChoices] || {};
             return (
               <Box key={key + name} className="my-4">
                 <div className="flex items-center">
-                  <Image
-                    src={imageURL}
-                    alt="food thumbnail"
-                    width="50"
-                    height="50"
-                    style={{
-                      objectFit: "cover",
-                      width: 50,
-                      height: 50,
-                    }}
-                  />
+                  {imageURL ? (
+                    <Image
+                      src={imageURL}
+                      alt="food thumbnail"
+                      width="50"
+                      height="50"
+                      style={{
+                        objectFit: "cover",
+                        width: 50,
+                        height: 50,
+                      }}
+                    />
+                  ) : (
+                    <Box className="w-[50px] h-[50px] bg-gray-200" />
+                  )}
                   <div className="mx-8">
                     <Typography variant="subtitle2">{name}</Typography>
                     <Typography variant="body1">{description}</Typography>

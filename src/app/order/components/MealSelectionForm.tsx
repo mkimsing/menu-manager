@@ -1,7 +1,5 @@
 "use client";
-import React, { useState } from "react";
-import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import BrunchDiningIcon from "@mui/icons-material/BrunchDining";
@@ -13,19 +11,15 @@ import {
   AccordionDetails,
   AccordionSummary,
   Typography,
-  Button,
 } from "@mui/material";
 
 import MealChoiceCard from "@/components/MealChoiceCard";
-import MealDetailsModal from "@/components/MealDetailsModal";
 
-import { WeeklyMealData } from "@/api/data";
 import {
   DailyMealChoices,
-  MealChoice,
   MealsInDay,
-  WeeklyMealChoices,
-  DaysOfWeek,
+  SelectedDailyMealChoices,
+  MealChoice,
 } from "@/api/types";
 
 const IconMealMapping: { [key in MealsInDay]: JSX.Element } = {
@@ -41,53 +35,19 @@ const IconMealMapping: { [key in MealsInDay]: JSX.Element } = {
 };
 
 type Props = {
-  dayOfWeek: keyof DaysOfWeek;
+  dailyMealData: DailyMealChoices;
+  selected: SelectedDailyMealChoices;
+  onSelect: (meal: MealChoice, mealKey: keyof MealsInDay) => void;
 };
 
-const MealSelectionForm = ({ dayOfWeek }: Props) => {
-  const dailyMealData = WeeklyMealData[dayOfWeek as keyof WeeklyMealChoices];
-  console.log(dayOfWeek);
-
-  //Inital fetch
-  const initialMeals: {
-    [key in keyof DailyMealChoices]: MealChoice | undefined;
-  } = {
-    breakfast: undefined,
-    lunch: undefined,
-    dinner: undefined,
-  };
-  Object.keys(dailyMealData).forEach(
-    (key) =>
-      (initialMeals[key as keyof DailyMealChoices] =
-        dailyMealData[key as keyof DailyMealChoices][0])
-  );
-
-  //Handle selected state
-  const [selectedMeals, setSelectedMeals] = useState(initialMeals);
-
-  //Handle state for modal
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const handleOnClick = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    handleOpen();
-  };
-
-  const onHandleSelect = (meal: MealChoice, mealKey: keyof MealsInDay) => {
-    setSelectedMeals({
-      ...selectedMeals,
-      [mealKey]: meal,
-    });
-  };
-
+const MealSelectionForm = ({ dailyMealData, selected, onSelect }: Props) => {
   return (
     <main className="flex min-h-screen flex-col items-center">
       <div className="mx-8">
         {Object.keys(dailyMealData).map((key) => {
+          // Key is a meal name
           const mealName = key[0].toUpperCase() + key.slice(1);
+          const selectedMeal = selected[key as keyof SelectedDailyMealChoices];
           return (
             <Box key={key} className="mt-4">
               <Accordion className="rounded-xl border-solid border-2 border-indigo-600">
@@ -102,21 +62,18 @@ const MealSelectionForm = ({ dayOfWeek }: Props) => {
                     {mealName}
                   </Typography>
                   <Typography className="mt-1 ml-10" variant="h5">
-                    {selectedMeals[key as keyof DailyMealChoices]?.name}
+                    {selectedMeal?.name || ""}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   {dailyMealData[key as keyof DailyMealChoices].map((meal) => {
-                    const isSelected =
-                      selectedMeals[key as keyof DailyMealChoices]?.id ===
-                      meal.id;
+                    const isSelected = selectedMeal?.id === meal.id;
                     return (
                       <MealChoiceCard
                         key={key + meal.id}
                         mealKey={key as keyof MealsInDay}
-                        handleOnSelect={onHandleSelect}
+                        handleOnSelect={onSelect}
                         selected={isSelected}
-                        handleOnClick={handleOnClick}
                         meal={meal}
                       />
                     );
@@ -127,7 +84,6 @@ const MealSelectionForm = ({ dayOfWeek }: Props) => {
           );
         })}
       </div>
-      <MealDetailsModal isOpen={open} handleClose={handleClose} />
     </main>
   );
 };
