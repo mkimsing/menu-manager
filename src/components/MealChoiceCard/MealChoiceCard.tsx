@@ -27,10 +27,10 @@ export default function MealChoiceCard({
       }}
       className={`${
         selected ? "bg-blue-50 border-blue-200" : "border-gray-300 bg-gray-50"
-      } relative flex items-center shadow-md border border-solid 
-      rounded-lg  py-4 px-6 my-3`}
+      } relative flex flex-col items-center shadow-md border border-solid 
+      rounded-lg py-4 px-6 my-3`}
     >
-      <div>
+      <div className="w-full">
         {selected && (
           <Chip
             sx={{ width: 150 }}
@@ -56,28 +56,26 @@ export default function MealChoiceCard({
             <Typography variant="h6">{name}</Typography>
             <Typography variant="body1">{description}</Typography>
           </div>
-        </div>
-        <div className="mt-4 flex justify-center w-full">
-          <Button
-            variant="contained"
-            className="px-5"
-            color="primary"
-            onClick={(event) => {
-              // Prevent outer div onClick when selecting
-              event.stopPropagation();
-
-              handleOnSelect(meal, mealKey);
-            }}
-          >
-            Select
-          </Button>
+          {selected && (
+            <div className="absolute right-6">
+              <CheckIcon sx={{ fontSize: 42 }} color="success" />
+            </div>
+          )}
         </div>
       </div>
-      {selected && (
-        <div className="absolute right-6">
-          <CheckIcon sx={{ fontSize: 42 }} color="success" />
-        </div>
-      )}
+
+      <div className="mt-4 w-full flex justify-center w-full">
+        <Button
+          variant="contained"
+          className="px-5"
+          color="primary"
+          onClick={(event) => {
+            handleOnSelect(meal, mealKey);
+          }}
+        >
+          Select
+        </Button>
+      </div>
     </div>
   );
 }
