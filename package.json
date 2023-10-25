@@ -14,10 +14,12 @@
     "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.14.11",
+    "@supabase/supabase-js": "^2.38.3",
+    "axios": "^1.5.1",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-swipeable-views": "^0.14.0"
+    "swr": "^2.2.4"
   },
   "devDependencies": {
     "@types/node": "latest",
