@@ -16,6 +16,7 @@
     "@mui/material": "^5.14.11",
     "@supabase-cache-helpers/postgrest-swr": "^1.1.13",
     "@supabase/supabase-js": "^2.38.3",
+    "@wojtekmaj/react-daterange-picker": "^5.4.4",
     "axios": "^1.5.1",
     "next": "latest",
     "react": "latest",

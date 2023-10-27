@@ -10,7 +10,10 @@ export default function NavBar() {
       <Link href="/order" className="mr-12">
         Order
       </Link>
-      <Link href="/history">History</Link>
+      <Link href="/history" className="mr-12">
+        History
+      </Link>
+      <Link href="/admin">Admin</Link>
     </header>
   );
 }

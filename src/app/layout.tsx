@@ -1,6 +1,5 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { StyledEngineProvider, ThemeProvider } from "@mui/material/styles";
 import { Box } from "@mui/material";
 import { Inter } from "next/font/google";
 import "@fontsource/roboto/300.css";
@@ -9,6 +8,8 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
 import Navbar from "@/components/NavBar";
+
+import ThemeRegistry from "@/theme/ThemeRegistry";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,12 +25,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <StyledEngineProvider injectFirst>
-        <body className={inter.className}>
+      <body className={inter.className}>
+        <ThemeRegistry>
           <Navbar />
           <Box className={"pt-12"}>{children}</Box>
-        </body>
-      </StyledEngineProvider>
+        </ThemeRegistry>
+      </body>
     </html>
   );
 }
