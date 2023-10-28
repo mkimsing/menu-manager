@@ -1,10 +1,13 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import AutocompleteSearchBar from "@/components/AutocompleteSearchBar";
-
+import {
+  FormControlLabel,
+  Switch,
+  Checkbox,
+  Box,
+  Typography,
+  Modal,
+} from "@mui/material";
+import SearchBar from "@/components/SearchBar";
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -24,16 +27,16 @@ type Props = {
     [key: string]: string | number;
     name: string;
   }[];
-  searchValue: string;
-  onChangeSearch: (newValue: string | null) => void;
 };
 export default function MealSelectionModal({
   open,
   handleClose,
   mealOptions,
-  searchValue,
-  onChangeSearch,
 }: Props) {
+  const [value, setValue] = React.useState<string>("");
+  const onChangeSearch = (newValue: string) => {
+    setValue(newValue);
+  };
   return (
     <div>
       <Modal
@@ -43,20 +46,45 @@ export default function MealSelectionModal({
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Box></Box>
-          <AutocompleteSearchBar
-            autocompleteOptions={mealOptions}
-            value={searchValue}
-            onChange={onChangeSearch}
+          <Typography variant="h5">Select available meal options</Typography>
+
+          <SearchBar
+            onChangeText={onChangeSearch}
+            value={value}
+            onPressClear={() => {
+              setValue("");
+            }}
           />
+          <Box>
+            <FormControlLabel
+              control={<Switch defaultChecked />}
+              label="Include basic meal options"
+            />
+            <FormControlLabel
+              control={<Switch defaultChecked />}
+              label="Allow custom request field"
+            />
+          </Box>
           {mealOptions &&
-            mealOptions.map((option) => {
-              return (
-                <Box key={option.name}>
-                  <Typography variant="body1">{option.description}</Typography>
-                </Box>
-              );
-            })}
+            mealOptions
+              .filter((option) => {
+                return option.name.toLowerCase().includes(value);
+              })
+              .map((option) => {
+                const label = { inputProps: { "aria-label": "Checkbox demo" } };
+                return (
+                  <Box
+                    key={option.name}
+                    className="flex flex-row items-center my-2 py-4"
+                  >
+                    <Typography variant="body1">{option.name}</Typography>
+                    <Checkbox
+                      {...label}
+                      sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+                    />
+                  </Box>
+                );
+              })}
         </Box>
       </Modal>
     </div>

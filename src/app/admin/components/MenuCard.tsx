@@ -42,17 +42,10 @@ const OPTIONS = [
 ];
 export default function MenuCard({ day, meals }: Props) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState<MealChoice>(OPTIONS[0]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const onChangeSearch = (newValue: string | null) => {
-    if (newValue) {
-      const foundIndex = OPTIONS.map((e) => e.name).indexOf(newValue);
-      setValue(OPTIONS[foundIndex]);
-    }
-  };
   return (
     <Box className="p-4 bg-blue-100 rounded-xl ">
       <Typography variant="h6">{day}</Typography>
@@ -75,8 +68,6 @@ export default function MenuCard({ day, meals }: Props) {
         open={open}
         handleClose={handleClose}
         mealOptions={OPTIONS}
-        searchValue={value.name}
-        onChangeSearch={onChangeSearch}
       />
     </Box>
   );
