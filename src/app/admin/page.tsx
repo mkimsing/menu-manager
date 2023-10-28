@@ -7,33 +7,47 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import muiTheme from "@/theme/theme";
 import getDaysFromRange from "@/utils/getDaysFromRange";
 import MenuCard from "./components/MenuCard";
-
-type ValuePiece = Date | null;
-type Value = [ValuePiece, ValuePiece];
+import {
+  DaysOfWeek,
+  MealChoice,
+  DailyMealChoices,
+  WeeklyMealChoices,
+} from "@/api/types";
 
 const SIDEBAR_WIDTH = 240; // width in px
 const SIDEBAR_BP_KEY = "sm";
+const DAYS_OF_WEEK_ARR = Object.keys(DaysOfWeek);
+
+const initialEmptyMenu: WeeklyMealChoices = {} as WeeklyMealChoices;
+DAYS_OF_WEEK_ARR.forEach((day: string) => {
+  initialEmptyMenu[day as keyof WeeklyMealChoices] = {
+    breakfast: [],
+    lunch: [],
+    dinner: [],
+  };
+});
+
 const Page = () => {
+  const [selectedMenu, setSelectedMenu] = useState(initialEmptyMenu);
   // Media query
   const matches = useMediaQuery(muiTheme.breakpoints.up(SIDEBAR_BP_KEY));
 
-  // Handle the date range
-  const [selectedRange, setSelectedRange] = useState<Value>([
-    new Date(),
-    new Date(new Date().getDate() + 1),
-  ]);
-  const onChange = (value: Value) => {
-    setSelectedRange(value);
+  const handleSelect = (
+    dayKey: string,
+    mealKey: string,
+    options: MealChoice[]
+  ) => {
+    setSelectedMenu({
+      ...selectedMenu,
+      [dayKey]: [
+        ...selectedMenu[dayKey as keyof WeeklyMealChoices][
+          mealKey as keyof DailyMealChoices
+        ],
+        ...options,
+      ],
+    });
   };
-
-  //Handle the rendering of the cards
-  const [daysBetween, setDaysBetween] = useState<Date[]>([]);
-  useEffect(() => {
-    if (selectedRange[0] && selectedRange[1]) {
-      setDaysBetween(getDaysFromRange(selectedRange[0], selectedRange[1]));
-    }
-  }, [selectedRange]);
-
+  const handleDelete = () => {};
   return (
     <main
       className="flex min-h-screen flex-col items-center p-8 lg:p-24 "
@@ -47,25 +61,19 @@ const Page = () => {
         sx={{
           flexGrow: 1,
         }}
+        className="w-full"
       >
-        <DateRangePicker onChange={onChange} value={selectedRange} />
-        {daysBetween.every((el) => el) &&
-          daysBetween.map((day: Date, index: number) => {
-            const nameOfDay = new Intl.DateTimeFormat("en-US", {
-              weekday: "long",
-            }).format(day);
-            return (
-              <MenuCard
-                day={nameOfDay}
-                key={nameOfDay + index}
-                meals={{
-                  breakfast: undefined,
-                  lunch: undefined,
-                  dinner: undefined,
-                }}
-              />
-            );
-          })}
+        {Object.keys(selectedMenu).map((key) => {
+          return (
+            <MenuCard
+              day={key}
+              key={key}
+              meals={selectedMenu[key as keyof WeeklyMealChoices]}
+              handleDelete={handleDelete}
+              handleSelect={handleSelect}
+            />
+          );
+        })}
       </Box>
     </main>
   );

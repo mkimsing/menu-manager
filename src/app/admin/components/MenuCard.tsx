@@ -1,13 +1,19 @@
 import React from "react";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, Chip } from "@mui/material";
 import { MealChoice, MealsInDay } from "@/api/types";
 import MealSelectionModal from "./MealSelectionModal/MealSelectionModal";
 
 type Props = {
   day: string;
   meals: {
-    [key in MealsInDay]: MealChoice | undefined;
+    [key in MealsInDay]: MealChoice[] | [];
   };
+  handleDelete: () => void;
+  handleSelect: (
+    dayKey: string,
+    mealKey: string,
+    options: MealChoice[]
+  ) => void;
 };
 
 const OPTIONS = [
@@ -40,11 +46,15 @@ const OPTIONS = [
       "A refreshing fruit smoothie with banana, strawberry, and yogurt.",
   },
 ];
-export default function MenuCard({ day, meals }: Props) {
+export default function MenuCard({ day, meals, handleDelete }: Props) {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleSelect = (selected) => {
+    console.log(selected);
+    handleClose();
+  };
 
   return (
     <Box className="p-4 bg-blue-100 rounded-xl ">
@@ -53,13 +63,18 @@ export default function MenuCard({ day, meals }: Props) {
         return (
           <Box className="" key={mealsKey}>
             <Typography variant="subtitle1">{mealsKey}</Typography>
-            {meals[mealsKey as keyof typeof meals] ? (
-              <Typography variant="subtitle1">
-                {meals[mealsKey as keyof typeof meals]?.name}
-              </Typography>
-            ) : (
-              <Button onClick={() => handleOpen()}>Select</Button>
-            )}
+
+            {meals[mealsKey as keyof typeof meals].map((meal) => {
+              return (
+                <Chip
+                  key={mealsKey + meal.name}
+                  label={meal.name}
+                  onDelete={handleDelete}
+                />
+              );
+            })}
+
+            <Button onClick={() => handleOpen()}>Select</Button>
           </Box>
         );
       })}
@@ -67,6 +82,7 @@ export default function MenuCard({ day, meals }: Props) {
       <MealSelectionModal
         open={open}
         handleClose={handleClose}
+        handleSubmit={handleSelect}
         mealOptions={OPTIONS}
       />
     </Box>
