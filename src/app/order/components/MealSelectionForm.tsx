@@ -37,7 +37,7 @@ const IconMealMapping: { [key in MealsInDay]: JSX.Element } = {
 type Props = {
   dailyMealData: AvailableDailyMenu;
   selected: SelectedDailyMealChoices;
-  onSelect: (meal: Menu_Option, mealKey: keyof MealsInDay) => void;
+  onSelect: (meal: Menu_Option, mealKey: MealsInDay) => void;
 };
 
 const MealSelectionForm = ({ dailyMealData, selected, onSelect }: Props) => {
@@ -72,7 +72,7 @@ const MealSelectionForm = ({ dailyMealData, selected, onSelect }: Props) => {
                       return (
                         <MealChoiceCard
                           key={key + menu_option.id}
-                          mealKey={key as keyof MealsInDay}
+                          mealKey={key as MealsInDay}
                           handleOnSelect={onSelect}
                           selected={isSelected}
                           meal={menu_option}

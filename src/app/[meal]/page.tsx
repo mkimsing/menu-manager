@@ -21,10 +21,10 @@ import MealDetailsModal from "@/components/MealDetailsModal";
 
 import { WeeklyMealData } from "@/api/data";
 import {
-  DailyMealChoices,
-  MealChoice,
+  SelectedDailyMealChoices,
+  Menu_Option,
   MealsInDay,
-  WeeklyMealChoices,
+  AvailableWeeklyMenu,
 } from "@/types/types";
 
 const IconMealMapping: { [key in MealsInDay]: JSX.Element } = {
@@ -42,20 +42,18 @@ const IconMealMapping: { [key in MealsInDay]: JSX.Element } = {
 const Page = () => {
   const searchParams = useSearchParams();
   const dayOfWeek = searchParams.get("dayOfWeek");
-  const dailyMealData = WeeklyMealData[dayOfWeek as keyof WeeklyMealChoices];
+  const dailyMealData = WeeklyMealData[dayOfWeek as keyof AvailableWeeklyMenu];
 
   //Inital fetch
-  const initialMeals: {
-    [key in keyof DailyMealChoices]: MealChoice | undefined;
-  } = {
+  const initialMeals: SelectedDailyMealChoices = {
     breakfast: undefined,
     lunch: undefined,
     dinner: undefined,
   };
   Object.keys(dailyMealData).forEach(
     (key) =>
-      (initialMeals[key as keyof DailyMealChoices] =
-        dailyMealData[key as keyof DailyMealChoices][0])
+      (initialMeals[key as keyof SelectedDailyMealChoices] =
+        dailyMealData[key as keyof SelectedDailyMealChoices][0])
   );
 
   //Handle selected state
@@ -72,7 +70,7 @@ const Page = () => {
     handleOpen();
   };
 
-  const onHandleSelect = (meal: MealChoice, mealKey: keyof MealsInDay) => {
+  const onHandleSelect = (meal: Menu_Option, mealKey: MealsInDay) => {
     setSelectedMeals({
       ...selectedMeals,
       [mealKey]: meal,
@@ -101,30 +99,31 @@ const Page = () => {
                   id="panel1a-header"
                   className="flex items-center"
                 >
-                  {IconMealMapping[key as keyof DailyMealChoices]}
+                  {IconMealMapping[key as keyof SelectedDailyMealChoices]}
                   <Typography className="mt-1" variant="h5">
                     {mealName}
                   </Typography>
                   <Typography className="mt-1 ml-10" variant="h5">
-                    {selectedMeals[key as keyof DailyMealChoices]?.name}
+                    {selectedMeals[key as keyof SelectedDailyMealChoices]?.name}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  {dailyMealData[key as keyof DailyMealChoices].map((meal) => {
-                    const isSelected =
-                      selectedMeals[key as keyof DailyMealChoices]?.id ===
-                      meal.id;
-                    return (
-                      <MealChoiceCard
-                        key={key + meal.id}
-                        mealKey={key as keyof MealsInDay}
-                        handleOnSelect={onHandleSelect}
-                        selected={isSelected}
-                        handleOnClick={handleOnClick}
-                        meal={meal}
-                      />
-                    );
-                  })}
+                  {dailyMealData[key as keyof SelectedDailyMealChoices].map(
+                    (meal) => {
+                      const isSelected =
+                        selectedMeals[key as keyof SelectedDailyMealChoices]
+                          ?.id === meal.id;
+                      return (
+                        <MealChoiceCard
+                          key={key + meal.id}
+                          mealKey={key as MealsInDay}
+                          handleOnSelect={onHandleSelect}
+                          selected={isSelected}
+                          meal={meal}
+                        />
+                      );
+                    }
+                  )}
                 </AccordionDetails>
               </Accordion>
             </Box>

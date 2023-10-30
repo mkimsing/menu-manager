@@ -9,9 +9,9 @@ import { Menu_Option, MealsInDay } from "@/types/types";
 
 type Props = {
   selected: boolean;
-  handleOnSelect: (meal: Menu_Option, mealKey: keyof MealsInDay) => void;
+  handleOnSelect: (meal: Menu_Option, mealKey: MealsInDay) => void;
   meal: Menu_Option;
-  mealKey: keyof MealsInDay;
+  mealKey: MealsInDay;
 };
 export default function MealChoiceCard({
   selected,

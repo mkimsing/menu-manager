@@ -84,10 +84,7 @@ export default function Page() {
     setActiveStep(0);
   };
 
-  const onHandleSelect = (
-    menu_option: Menu_Option,
-    mealKey: keyof MealsInDay
-  ) => {
+  const onHandleSelect = (menu_option: Menu_Option, mealKey: MealsInDay) => {
     setWeeklySelection({
       ...weeklySelection,
       [dayofWeek]: {
