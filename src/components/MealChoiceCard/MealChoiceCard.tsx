@@ -5,12 +5,12 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import CheckIcon from "@mui/icons-material/Check";
-import { MealChoice, MealsInDay, DaysOfWeek } from "@/types/types";
+import { Menu_Option, MealsInDay } from "@/types/types";
 
 type Props = {
   selected: boolean;
-  handleOnSelect: (meal: MealChoice, mealKey: keyof MealsInDay) => void;
-  meal: MealChoice;
+  handleOnSelect: (meal: Menu_Option, mealKey: keyof MealsInDay) => void;
+  meal: Menu_Option;
   mealKey: keyof MealsInDay;
 };
 export default function MealChoiceCard({
@@ -19,7 +19,7 @@ export default function MealChoiceCard({
   meal,
   mealKey,
 }: Props) {
-  const { imageURL, name, description } = meal;
+  const { image_url, name, description } = meal;
   return (
     <div
       onClick={(event) => {
@@ -41,17 +41,19 @@ export default function MealChoiceCard({
           />
         )}
         <div className="flex items-center">
-          <Image
-            src={imageURL}
-            alt="food thumbnail"
-            width="150"
-            height="150"
-            style={{
-              objectFit: "cover",
-              width: 150,
-              height: 150,
-            }}
-          />
+          {image_url && (
+            <Image
+              src={image_url}
+              alt="food thumbnail"
+              width="150"
+              height="150"
+              style={{
+                objectFit: "cover",
+                width: 150,
+                height: 150,
+              }}
+            />
+          )}
           <div className="ml-8 mr-14">
             <Typography variant="h6">{name}</Typography>
             <Typography variant="body1">{description}</Typography>
