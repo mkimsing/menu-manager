@@ -25,7 +25,7 @@ import {
   MealChoice,
   MealsInDay,
   WeeklyMealChoices,
-} from "@/api/types";
+} from "@/types/types";
 
 const IconMealMapping: { [key in MealsInDay]: JSX.Element } = {
   breakfast: (

@@ -2,26 +2,19 @@
 import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import Box from "@mui/material/Box";
-import DateRangePicker from "./components/DateRangePicker";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import muiTheme from "@/theme/theme";
-import getDaysFromRange from "@/utils/getDaysFromRange";
 import MenuCard from "./components/MenuCard";
-import {
-  DaysOfWeek,
-  DailyMealChoices,
-  WeeklyMealChoices,
-  AvailableWeeklyMenu,
-} from "@/api/types";
-import { useAllMeals, AllMealsQueryResult } from "@/api/hooks/useAllMeals";
+import { DaysOfWeek, AdminDailyMenu, AdminWeeklyMenu } from "@/types/types";
+import { useAllMeals } from "@/api/hooks/useAllMeals";
 import { Button } from "@mui/material";
 const SIDEBAR_WIDTH = 240; // width in px
 const SIDEBAR_BP_KEY = "sm";
 const DAYS_OF_WEEK_ARR = Object.keys(DaysOfWeek);
 
-const initialEmptyMenu: AvailableWeeklyMenu = {} as AvailableWeeklyMenu;
+const initialEmptyMenu: AdminWeeklyMenu = {} as AdminWeeklyMenu;
 DAYS_OF_WEEK_ARR.forEach((day: string) => {
-  initialEmptyMenu[day as keyof WeeklyMealChoices] = {
+  initialEmptyMenu[day as keyof AdminWeeklyMenu] = {
     breakfast: {},
     lunch: {},
     dinner: {},
@@ -42,21 +35,14 @@ const Page = () => {
     selectedId: string,
     newValue: boolean
   ) => {
-    // // Accept only keys and are selected/true
-    // const filteredKeys = Object.keys(options).filter((key) => options[key]);
-    // //Lookup mealoption from ID
-    // const fullMealOptions = filteredKeys.map((mealID) => {
-    //   return allMealsData?.find((meal) => String(meal.id) === mealID);
-    // });
-
     // Set state
     setWeeklyMenu({
       ...weeklyMenu,
       [dayKey]: {
-        ...weeklyMenu[dayKey as keyof WeeklyMealChoices],
-        [mealKey as keyof DailyMealChoices]: {
-          ...weeklyMenu[dayKey as keyof WeeklyMealChoices][
-            mealKey as keyof DailyMealChoices
+        ...weeklyMenu[dayKey as keyof AdminWeeklyMenu],
+        [mealKey as keyof AdminDailyMenu]: {
+          ...weeklyMenu[dayKey as keyof AdminWeeklyMenu][
+            mealKey as keyof AdminDailyMenu
           ],
           [selectedId]: newValue,
         },
@@ -90,7 +76,7 @@ const Page = () => {
               day={weeklyMenuKey}
               key={weeklyMenuKey}
               availableDailyMenu={
-                weeklyMenu[weeklyMenuKey as keyof WeeklyMealChoices]
+                weeklyMenu[weeklyMenuKey as keyof AdminWeeklyMenu]
               }
               handleDelete={handleDelete}
               handleSelect={handleSelect}

@@ -16,11 +16,11 @@ import {
 import MealChoiceCard from "@/components/MealChoiceCard";
 
 import {
-  DailyMealChoices,
   MealsInDay,
   SelectedDailyMealChoices,
-  MealChoice,
-} from "@/api/types";
+  Menu_Option,
+  AvailableDailyMenu,
+} from "@/types/types";
 
 const IconMealMapping: { [key in MealsInDay]: JSX.Element } = {
   breakfast: (
@@ -35,9 +35,9 @@ const IconMealMapping: { [key in MealsInDay]: JSX.Element } = {
 };
 
 type Props = {
-  dailyMealData: DailyMealChoices;
+  dailyMealData: AvailableDailyMenu;
   selected: SelectedDailyMealChoices;
-  onSelect: (meal: MealChoice, mealKey: keyof MealsInDay) => void;
+  onSelect: (meal: Menu_Option, mealKey: keyof MealsInDay) => void;
 };
 
 const MealSelectionForm = ({ dailyMealData, selected, onSelect }: Props) => {
@@ -45,7 +45,7 @@ const MealSelectionForm = ({ dailyMealData, selected, onSelect }: Props) => {
     <main className="flex min-h-screen flex-col items-center">
       <div className="mx-8">
         {Object.keys(dailyMealData).map((key) => {
-          // Key is a meal name
+          //Note: Key is a meal name
           const mealName = key[0].toUpperCase() + key.slice(1);
           const selectedMeal = selected[key as keyof SelectedDailyMealChoices];
           return (
@@ -57,7 +57,7 @@ const MealSelectionForm = ({ dailyMealData, selected, onSelect }: Props) => {
                   id="panel1a-header"
                   className="flex items-center"
                 >
-                  {IconMealMapping[key as keyof DailyMealChoices]}
+                  {IconMealMapping[key as keyof SelectedDailyMealChoices]}
                   <Typography className="mt-1" variant="h5">
                     {mealName}
                   </Typography>
@@ -66,18 +66,20 @@ const MealSelectionForm = ({ dailyMealData, selected, onSelect }: Props) => {
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  {dailyMealData[key as keyof DailyMealChoices].map((meal) => {
-                    const isSelected = selectedMeal?.id === meal.id;
-                    return (
-                      <MealChoiceCard
-                        key={key + meal.id}
-                        mealKey={key as keyof MealsInDay}
-                        handleOnSelect={onSelect}
-                        selected={isSelected}
-                        meal={meal}
-                      />
-                    );
-                  })}
+                  {dailyMealData[key as keyof AvailableDailyMenu].map(
+                    (menu_option) => {
+                      const isSelected = selectedMeal?.id === menu_option.id;
+                      return (
+                        <MealChoiceCard
+                          key={key + menu_option.id}
+                          mealKey={key as keyof MealsInDay}
+                          handleOnSelect={onSelect}
+                          selected={isSelected}
+                          meal={menu_option}
+                        />
+                      );
+                    }
+                  )}
                 </AccordionDetails>
               </Accordion>
             </Box>

@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import CheckIcon from "@mui/icons-material/Check";
-import { MealChoice, MealsInDay, DaysOfWeek } from "@/api/types";
+import { MealChoice, MealsInDay, DaysOfWeek } from "@/types/types";
 
 type Props = {
   selected: boolean;

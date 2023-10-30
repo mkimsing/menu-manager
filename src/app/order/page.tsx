@@ -11,14 +11,13 @@ import MealSelectionForm from "./components/MealSelectionForm";
 import {
   MealsInDay,
   DaysOfWeek,
-  MealChoice,
+  Menu_Option,
   SelectedDailyMealChoices,
-} from "@/api/types";
+} from "@/types/types";
 import { WeeklyMealData } from "@/api/data";
 const steps = Object.keys(DaysOfWeek);
 
 // Initialize the empty weekly order object
-
 type WeeklySelection = {
   [key in DaysOfWeek]: SelectedDailyMealChoices;
 };
@@ -85,12 +84,15 @@ export default function Page() {
     setActiveStep(0);
   };
 
-  const onHandleSelect = (meal: MealChoice, mealKey: keyof MealsInDay) => {
+  const onHandleSelect = (
+    menu_option: Menu_Option,
+    mealKey: keyof MealsInDay
+  ) => {
     setWeeklySelection({
       ...weeklySelection,
       [dayofWeek]: {
         ...weeklySelection[dayofWeek as keyof WeeklySelection],
-        [mealKey]: meal,
+        [mealKey]: menu_option,
       },
     });
   };

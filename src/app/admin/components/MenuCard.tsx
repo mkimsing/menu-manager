@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, Typography, Button, Chip } from "@mui/material";
-import { AvailableDailyMenu } from "@/api/types";
+import { AdminDailyMenu } from "@/types/types";
 import MealSelectionModal from "./MealSelectionModal/MealSelectionModal";
 import { AllMealsQueryResult } from "@/api/hooks/useAllMeals";
 type CheckboxSelected = {
@@ -12,7 +12,7 @@ type CheckboxSelected = {
 
 type Props = {
   day: string;
-  availableDailyMenu: AvailableDailyMenu;
+  availableDailyMenu: AdminDailyMenu;
   handleDelete: () => void;
   handleSelect: (
     dayKey: string,
@@ -20,7 +20,7 @@ type Props = {
     selectedId: string,
     newValue: boolean
   ) => void;
-  allMealsData: AllMealsQueryResult;
+  allMealsData: AllMealsQueryResult[] | null | undefined;
 };
 
 export default function MenuCard({
@@ -65,7 +65,7 @@ export default function MenuCard({
               )
               .map((mealId) => {
                 const fullMealData = allMealsData?.find(
-                  (meal) => String(meal.id) === mealId
+                  (meal) => String(meal?.id) === mealId
                 );
 
                 return (

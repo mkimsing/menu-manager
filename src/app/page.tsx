@@ -2,7 +2,7 @@
 import Image from "next/image";
 import DailySelection from "@/components/DailySelection";
 import { WeeklyMealData } from "@/api/data";
-import { WeeklyMealChoices } from "@/api/types";
+import { SelectedWeeklyMealChoices } from "@/types/types";
 import { Box, Typography } from "@mui/material";
 
 export default function Home() {
@@ -27,16 +27,20 @@ export default function Home() {
           return (
             <Box key={key} className="my-4 max-w-3xl w-full ">
               <DailySelection
-                dayOfWeek={key as keyof WeeklyMealChoices}
+                dayOfWeek={key as keyof SelectedWeeklyMealChoices}
                 selectedDailyOption={{
                   breakfast:
-                    WeeklyMealData[key as keyof WeeklyMealChoices][
+                    WeeklyMealData[key as keyof SelectedWeeklyMealChoices][
                       "breakfast"
                     ][0],
                   lunch:
-                    WeeklyMealData[key as keyof WeeklyMealChoices]["lunch"][0],
+                    WeeklyMealData[key as keyof SelectedWeeklyMealChoices][
+                      "lunch"
+                    ][0],
                   dinner:
-                    WeeklyMealData[key as keyof WeeklyMealChoices]["dinner"][0],
+                    WeeklyMealData[key as keyof SelectedWeeklyMealChoices][
+                      "dinner"
+                    ][0],
                 }}
               />
             </Box>

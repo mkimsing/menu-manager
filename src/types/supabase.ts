@@ -9,36 +9,12 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      meal: {
-        Row: {
-          description: string | null
-          id: number
-          image_url: string | null
-          last_updated: string | null
-          name: string
-        }
-        Insert: {
-          description?: string | null
-          id: number
-          image_url?: string | null
-          last_updated?: string | null
-          name?: string
-        }
-        Update: {
-          description?: string | null
-          id?: number
-          image_url?: string | null
-          last_updated?: string | null
-          name?: string
-        }
-        Relationships: []
-      }
       menu: {
         Row: {
           created_at: string
           day: string | null
           id: number
-          meal_time: Database["public"]["Enums"]["meal_time"] | null
+          meal: Database["public"]["Enums"]["meal"] | null
           menu_period_id: number | null
           name: string | null
         }
@@ -46,7 +22,7 @@ export interface Database {
           created_at?: string
           day?: string | null
           id?: number
-          meal_time?: Database["public"]["Enums"]["meal_time"] | null
+          meal?: Database["public"]["Enums"]["meal"] | null
           menu_period_id?: number | null
           name?: string | null
         }
@@ -54,7 +30,7 @@ export interface Database {
           created_at?: string
           day?: string | null
           id?: number
-          meal_time?: Database["public"]["Enums"]["meal_time"] | null
+          meal?: Database["public"]["Enums"]["meal"] | null
           menu_period_id?: number | null
           name?: string | null
         }
@@ -87,7 +63,7 @@ export interface Database {
           {
             foreignKeyName: "menu_meals_meal_id_fkey"
             columns: ["meal_id"]
-            referencedRelation: "meal"
+            referencedRelation: "menu_option"
             referencedColumns: ["id"]
           },
           {
@@ -97,6 +73,33 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
+      }
+      menu_option: {
+        Row: {
+          description: string | null
+          id: number
+          image_url: string | null
+          last_updated: string | null
+          name: string
+          suggested_meal: Database["public"]["Enums"]["meal"] | null
+        }
+        Insert: {
+          description?: string | null
+          id: number
+          image_url?: string | null
+          last_updated?: string | null
+          name?: string
+          suggested_meal?: Database["public"]["Enums"]["meal"] | null
+        }
+        Update: {
+          description?: string | null
+          id?: number
+          image_url?: string | null
+          last_updated?: string | null
+          name?: string
+          suggested_meal?: Database["public"]["Enums"]["meal"] | null
+        }
+        Relationships: []
       }
       menu_period: {
         Row: {
@@ -127,28 +130,28 @@ export interface Database {
           count: number | null
           created_at: string
           id: number
-          meal_id: number | null
+          meal_option_id: number | null
           menu_id: number | null
         }
         Insert: {
           count?: number | null
           created_at?: string
           id?: number
-          meal_id?: number | null
+          meal_option_id?: number | null
           menu_id?: number | null
         }
         Update: {
           count?: number | null
           created_at?: string
           id?: number
-          meal_id?: number | null
+          meal_option_id?: number | null
           menu_id?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "orders_meal_id_fkey"
-            columns: ["meal_id"]
-            referencedRelation: "meal"
+            foreignKeyName: "orders_meal_option_id_fkey"
+            columns: ["meal_option_id"]
+            referencedRelation: "menu_option"
             referencedColumns: ["id"]
           },
           {
@@ -167,7 +170,7 @@ export interface Database {
       [_ in never]: never
     }
     Enums: {
-      meal_time: "breakfast" | "lunch" | "dinner"
+      meal: "breakfast" | "lunch" | "dinner"
     }
     CompositeTypes: {
       [_ in never]: never

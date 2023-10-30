@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   FormControlLabel,
   Switch,
@@ -6,11 +6,10 @@ import {
   Box,
   Typography,
   Modal,
-  Button,
 } from "@mui/material";
 import SearchBar from "@/components/SearchBar";
 import { useAllMeals } from "@/api/hooks/useAllMeals";
-import { AvailableMenu } from "@/api/types";
+import { AdminMenu } from "@/types/types";
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -23,15 +22,11 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-// Object of keyed meal ids mapped to if itme is selected
-type CheckboxSelected = {
-  [key: string]: boolean;
-};
 
 type Props = {
   open: boolean;
   handleClose: () => void;
-  selectedMeals: AvailableMenu;
+  selectedMeals: AdminMenu;
   handleChangeSelected: (selectedId: string, newValue: boolean) => void;
 };
 export default function MealSelectionModal({
@@ -79,24 +74,24 @@ export default function MealSelectionModal({
           {allMealsData &&
             allMealsData
               .filter((option) => {
-                return option.name.toLowerCase().includes(value);
+                return option?.name.toLowerCase().includes(value);
               })
               .map((option) => {
                 return (
                   <Box
-                    key={option.name}
+                    key={option?.name}
                     className="flex flex-row items-center my-2 py-4"
                   >
-                    <Typography variant="body1">{option.name}</Typography>
+                    <Typography variant="body1">{option?.name}</Typography>
                     <Checkbox
                       sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
                       inputProps={{
-                        "aria-label": `Checkbox for ${option.name}`,
+                        "aria-label": `Checkbox for ${option?.name}`,
                       }}
-                      checked={selectedMeals[option.id] || false}
+                      checked={option?.id ? selectedMeals[option.id] : false}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         handleChangeSelected(
-                          String(option.id),
+                          String(option?.id),
                           event.target.checked
                         )
                       }

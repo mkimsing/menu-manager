@@ -3,7 +3,7 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Link from "next/link";
-import { DaysOfWeek, SelectedDailyMealChoices } from "@/api/types";
+import { DaysOfWeek, SelectedDailyMealChoices } from "@/types/types";
 import { Box } from "@mui/material";
 
 type Props = {
