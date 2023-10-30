@@ -4,10 +4,8 @@ import DailySelection from "@/components/DailySelection";
 import { WeeklyMealData } from "@/api/data";
 import { WeeklyMealChoices } from "@/api/types";
 import { Box, Typography } from "@mui/material";
-import { useMeals } from "@/api/hooks/useMeals";
 
 export default function Home() {
-  useMeals(Date.now());
   return (
     <main className="flex min-h-screen flex-col items-center">
       <div className="relative w-screen h-[50vh]">

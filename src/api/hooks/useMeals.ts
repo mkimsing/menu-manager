@@ -14,7 +14,6 @@ export const useMeals = (timestamp: number) => {
     }
   );
 
-  console.log(data, count);
   return { data, count };
 };
 

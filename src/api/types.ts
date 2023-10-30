@@ -11,6 +11,22 @@ export type DailyMealChoices = {
   dinner: MealChoice[];
 };
 
+export type AvailableWeeklyMenu = {
+  [key in DaysOfWeek]: AvailableDailyMenu;
+};
+
+// Object for each meal in day, and for each meal keys are mealIds and values are true/false.
+// If not present, in object, is false
+export type AvailableDailyMenu = {
+  breakfast: AvailableMenu;
+  lunch: AvailableMenu;
+  dinner: AvailableMenu;
+};
+
+export type AvailableMenu = {
+  [mealId: string]: boolean;
+};
+
 export type WeeklyMealChoices = {
   [key in DaysOfWeek]: DailyMealChoices;
 };

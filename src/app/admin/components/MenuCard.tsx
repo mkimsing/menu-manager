@@ -1,80 +1,89 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, Button, Chip } from "@mui/material";
-import { MealChoice, MealsInDay } from "@/api/types";
+import { AvailableDailyMenu } from "@/api/types";
 import MealSelectionModal from "./MealSelectionModal/MealSelectionModal";
+import { AllMealsQueryResult } from "@/api/hooks/useAllMeals";
+type CheckboxSelected = {
+  [key: string]: boolean;
+};
+
+// Object for each meal in day, and for each meal keys are mealIds and values are true/false.
+// If not present, in object, is false
 
 type Props = {
   day: string;
-  meals: {
-    [key in MealsInDay]: MealChoice[] | [];
-  };
+  availableDailyMenu: AvailableDailyMenu;
   handleDelete: () => void;
   handleSelect: (
     dayKey: string,
     mealKey: string,
-    options: MealChoice[]
+    selectedId: string,
+    newValue: boolean
   ) => void;
+  allMealsData: AllMealsQueryResult;
 };
 
-const OPTIONS = [
-  {
-    id: 16,
-    imageURL: "https://picsum.photos/id/179/200/300",
-    name: "Margherita Pizza",
-    description:
-      "Thin-crust pizza topped with tomato sauce, mozzarella, fresh basil, and olive oil.",
-  },
-  {
-    id: 35,
-    imageURL: "https://picsum.photos/id/204/200/300",
-    name: "Chicken Alfredo",
-    description:
-      "Creamy fettuccine pasta with grilled chicken and Parmesan cheese.",
-  },
-  {
-    id: 34,
-    imageURL: "https://picsum.photos/id/199/200/300",
-    name: "French Toast",
-    description:
-      "Slices of bread soaked in a mixture of eggs and milk, cooked to golden perfection.",
-  },
-  {
-    id: 12,
-    imageURL: "https://picsum.photos/id/175/200/300",
-    name: "Fruit Smoothie",
-    description:
-      "A refreshing fruit smoothie with banana, strawberry, and yogurt.",
-  },
-];
-export default function MenuCard({ day, meals, handleDelete }: Props) {
+export default function MenuCard({
+  day,
+  handleSelect,
+  availableDailyMenu,
+  handleDelete,
+  allMealsData,
+}: Props) {
+  const [mealToModify, setMealToModify] = useState<
+    "breakfast" | "lunch" | "dinner"
+  >("breakfast");
   const [open, setOpen] = React.useState(false);
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = (mealKey: "breakfast" | "lunch" | "dinner") => {
+    setMealToModify(mealKey);
+    setOpen(true);
+  };
   const handleClose = () => setOpen(false);
-  const handleSelect = (selected) => {
-    console.log(selected);
-    handleClose();
+
+  const handleChangeSelected = (selectedId: string, newValue: boolean) => {
+    handleSelect(day, mealToModify, selectedId, newValue);
   };
 
   return (
     <Box className="p-4 bg-blue-100 rounded-xl ">
       <Typography variant="h6">{day}</Typography>
-      {Object.keys(meals).map((mealsKey) => {
+      {Object.keys(availableDailyMenu).map((mealInDayKey) => {
         return (
-          <Box className="" key={mealsKey}>
-            <Typography variant="subtitle1">{mealsKey}</Typography>
+          <Box className="" key={mealInDayKey}>
+            <Typography variant="subtitle1">{mealInDayKey}</Typography>
+            {Object.keys(
+              availableDailyMenu[
+                mealInDayKey as keyof typeof availableDailyMenu
+              ]
+            )
+              .filter(
+                (mealId) =>
+                  availableDailyMenu[
+                    mealInDayKey as keyof typeof availableDailyMenu
+                  ][mealId]
+              )
+              .map((mealId) => {
+                const fullMealData = allMealsData?.find(
+                  (meal) => String(meal.id) === mealId
+                );
 
-            {meals[mealsKey as keyof typeof meals].map((meal) => {
-              return (
-                <Chip
-                  key={mealsKey + meal.name}
-                  label={meal.name}
-                  onDelete={handleDelete}
-                />
-              );
-            })}
+                return (
+                  <Chip
+                    key={mealInDayKey + mealId}
+                    label={fullMealData?.name || ""}
+                    onDelete={handleDelete}
+                  />
+                );
+              })}
 
-            <Button onClick={() => handleOpen()}>Select</Button>
+            <Button
+              onClick={() =>
+                handleOpen(mealInDayKey as "breakfast" | "lunch" | "dinner")
+              }
+            >
+              Select
+            </Button>
           </Box>
         );
       })}
@@ -82,8 +91,8 @@ export default function MenuCard({ day, meals, handleDelete }: Props) {
       <MealSelectionModal
         open={open}
         handleClose={handleClose}
-        handleSubmit={handleSelect}
-        mealOptions={OPTIONS}
+        selectedMeals={availableDailyMenu[mealToModify]}
+        handleChangeSelected={handleChangeSelected}
       />
     </Box>
   );

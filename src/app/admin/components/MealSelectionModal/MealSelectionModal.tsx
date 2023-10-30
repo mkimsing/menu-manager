@@ -9,55 +9,43 @@ import {
   Button,
 } from "@mui/material";
 import SearchBar from "@/components/SearchBar";
+import { useAllMeals } from "@/api/hooks/useAllMeals";
+import { AvailableMenu } from "@/api/types";
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "80%",
+  height: "80%",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
 // Object of keyed meal ids mapped to if itme is selected
-type SelectedMeals = {
+type CheckboxSelected = {
   [key: string]: boolean;
 };
 
 type Props = {
   open: boolean;
   handleClose: () => void;
-  mealOptions: {
-    [key: string]: string | number;
-    name: string;
-  }[];
-  handleSubmit: (options: SelectedMeals) => void;
+  selectedMeals: AvailableMenu;
+  handleChangeSelected: (selectedId: string, newValue: boolean) => void;
 };
 export default function MealSelectionModal({
   open,
   handleClose,
-  mealOptions,
-  handleSubmit,
+  selectedMeals,
+  handleChangeSelected,
 }: Props) {
+  //Fetch meal data
+  const { data: allMealsData, isLoading } = useAllMeals();
   const [value, setValue] = React.useState<string>("");
-
-  const [selected, setSelected] = useState<SelectedMeals>({});
 
   const onChangeSearch = (newValue: string) => {
     setValue(newValue);
-  };
-
-  //Checkbox and selected state
-  const handleChange = (selectedId: string, newValue: boolean) => {
-    setSelected({
-      ...selected,
-      [selectedId]: newValue,
-    });
-  };
-
-  const onSubmit = () => {
-    handleSubmit(selected);
   };
 
   return (
@@ -68,7 +56,7 @@ export default function MealSelectionModal({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box sx={style} className="overflow-scroll">
           <Typography variant="h5">Select available meal options</Typography>
 
           <SearchBar
@@ -88,8 +76,8 @@ export default function MealSelectionModal({
               label="Allow custom request field"
             />
           </Box>
-          {mealOptions &&
-            mealOptions
+          {allMealsData &&
+            allMealsData
               .filter((option) => {
                 return option.name.toLowerCase().includes(value);
               })
@@ -105,15 +93,17 @@ export default function MealSelectionModal({
                       inputProps={{
                         "aria-label": `Checkbox for ${option.name}`,
                       }}
-                      checked={selected[option.id] || false}
+                      checked={selectedMeals[option.id] || false}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        handleChange(String(option.id), event.target.checked)
+                        handleChangeSelected(
+                          String(option.id),
+                          event.target.checked
+                        )
                       }
                     />
                   </Box>
                 );
               })}
-          <Button onClick={() => onSubmit()}>SUBMIT</Button>
         </Box>
       </Modal>
     </div>
