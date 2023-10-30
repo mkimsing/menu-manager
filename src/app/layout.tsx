@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeRegistry>
+        <ThemeRegistry options={{ key: "mui" }}>
           <Navbar />
           <Box className={"pt-12"}>{children}</Box>
         </ThemeRegistry>
