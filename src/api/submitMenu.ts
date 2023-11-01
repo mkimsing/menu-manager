@@ -1,7 +1,3 @@
-import {
-  useQuery,
-  useInsertMutation,
-} from "@supabase-cache-helpers/postgrest-swr";
 import { supabaseClient } from "@/api/client";
 import { AdminWeeklyMenu, AdminDailyMenu } from "@/types/types";
 import { Tables } from "@/types/supabaseHelpers";
@@ -9,7 +5,7 @@ import { addDays } from "date-fns";
 
 type Payload = {
   name?: Tables<"menu_period">["name"];
-  active_start_date?: Tables<"menu_period">["active_start_date"];
+  active_start_date?: Date;
   weeklyMenu: AdminWeeklyMenu;
 };
 //Given a timestamp, return the current menu period
@@ -23,20 +19,15 @@ export const submitMenu = async ({
   const meals: string[] = [];
   const menu_option_ids: number[] = [];
   Object.keys(weeklyMenu).forEach((weeklyKey, index) => {
-    const day = addDays(
-      new Date(active_start_date || ""),
-      index + 1
-    ).toUTCString();
-
-    console.log(day);
+    // Generate date string based on start date
+    const day = addDays(new Date(active_start_date || ""), index).toUTCString();
     Object.keys(weeklyMenu[weeklyKey as keyof AdminWeeklyMenu]).forEach(
       (dailyKey) => {
         const menu =
           weeklyMenu[weeklyKey as keyof AdminWeeklyMenu][
             dailyKey as keyof AdminDailyMenu
           ];
-        active_start_date;
-        days.push(weeklyKey);
+        days.push(day);
         meals.push(dailyKey);
         menu_option_ids.push(
           ...Object.keys(menu)
@@ -47,15 +38,13 @@ export const submitMenu = async ({
     );
   });
 
-  // console.log(days, meals, menu_option_ids);
+  const res = await supabaseClient.rpc("insert_weekly_menu", {
+    input_menu_period_name: name || null,
+    input_menu_period_active_start_date: active_start_date || null,
+    input_menu_days: days,
+    input_menu_meal: meals,
+    input_menu_menu_options: menu_option_ids,
+  });
 
-  // const res = await supabaseClient.rpc("insert_weekly_menu", {
-  //   input_menu_period_name: name || null,
-  //   input_menu_period_active_start_date: active_start_date || null,
-  //   input_menu_days: days,
-  //   input_menu_meal: meals,
-  //   input_menu_menu_options: menu_option_ids,
-  // });
-
-  // return res;
+  return res;
 };

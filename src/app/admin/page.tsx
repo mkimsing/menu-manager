@@ -79,7 +79,7 @@ const Page = () => {
   const handleSubmit = async () => {
     await submitMenu({
       name: "test",
-      active_start_date: new Date().toISOString(),
+      active_start_date: menuRange?.from,
       weeklyMenu: weeklyMenu,
     });
   };
