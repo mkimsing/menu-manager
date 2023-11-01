@@ -8,8 +8,10 @@ import {
   Modal,
 } from "@mui/material";
 import SearchBar from "@/components/SearchBar";
-import { useAllMeals } from "@/api/hooks/useAllMeals";
+import { AllMealsQueryResult, useAllMeals } from "@/api/hooks/useAllMeals";
 import { AdminMenu } from "@/types/types";
+import { Tables } from "@/types/supabaseHelpers";
+
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -77,18 +79,19 @@ export default function MealSelectionModal({
                 return option?.name.toLowerCase().includes(value);
               })
               .map((option) => {
+                const { id, name } = option as Tables<"menu_option">;
                 return (
                   <Box
-                    key={option?.name}
+                    key={name}
                     className="flex flex-row items-center my-2 py-4"
                   >
-                    <Typography variant="body1">{option?.name}</Typography>
+                    <Typography variant="body1">{name}</Typography>
                     <Checkbox
                       sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
                       inputProps={{
                         "aria-label": `Checkbox for ${option?.name}`,
                       }}
-                      checked={option?.id ? selectedMeals[option.id] : false}
+                      checked={selectedMeals[id] ?? false}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         handleChangeSelected(
                           String(option?.id),

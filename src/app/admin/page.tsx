@@ -5,27 +5,51 @@ import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import muiTheme from "@/theme/theme";
 import MenuCard from "./components/MenuCard";
-import { DaysOfWeek, AdminDailyMenu, AdminWeeklyMenu } from "@/types/types";
+import {
+  DaysOfWeek,
+  AdminDailyMenu,
+  AdminWeeklyMenu,
+  AdminMenu,
+} from "@/types/types";
 import { useAllMeals } from "@/api/hooks/useAllMeals";
 import { Button } from "@mui/material";
+import { submitMenu } from "@/api/submitMenu";
+import DatePicker from "./components/DatePicker";
+import { DateRange } from "react-day-picker";
 const SIDEBAR_WIDTH = 240; // width in px
 const SIDEBAR_BP_KEY = "sm";
 const DAYS_OF_WEEK_ARR = Object.keys(DaysOfWeek);
 
-const initialEmptyMenu: AdminWeeklyMenu = {} as AdminWeeklyMenu;
-DAYS_OF_WEEK_ARR.forEach((day: string) => {
-  initialEmptyMenu[day as keyof AdminWeeklyMenu] = {
-    breakfast: {},
-    lunch: {},
-    dinner: {},
-  };
-});
-
 const Page = () => {
-  const [weeklyMenu, setWeeklyMenu] = useState(initialEmptyMenu);
+  const [menuRange, setMenuRange] = useState<DateRange | undefined>(undefined);
+  const onChangeDate = (value: DateRange | undefined) => {
+    setMenuRange(value);
+  };
   //Fetch meal data
   const { data: allMealsData, isLoading } = useAllMeals();
 
+  //Populate initial selected state
+  const generateInitialMenu = () => {
+    const initialSelectedState: AdminMenu = {};
+    allMealsData?.forEach((menu_option) => {
+      if (menu_option) {
+        initialSelectedState[menu_option.id] = false;
+      }
+    });
+
+    const initialEmptyMenu: AdminWeeklyMenu = {} as AdminWeeklyMenu;
+    DAYS_OF_WEEK_ARR.forEach((day: string) => {
+      initialEmptyMenu[day as keyof AdminWeeklyMenu] = {
+        breakfast: initialSelectedState,
+        lunch: initialSelectedState,
+        dinner: initialSelectedState,
+      };
+    });
+
+    return initialEmptyMenu;
+  };
+
+  const [weeklyMenu, setWeeklyMenu] = useState(generateInitialMenu());
   // Media query
   const matches = useMediaQuery(muiTheme.breakpoints.up(SIDEBAR_BP_KEY));
 
@@ -52,8 +76,12 @@ const Page = () => {
 
   const handleDelete = () => {};
 
-  const submitMenu = () => {
-    console.log(weeklyMenu);
+  const handleSubmit = async () => {
+    await submitMenu({
+      name: "test",
+      active_start_date: new Date().toISOString(),
+      weeklyMenu: weeklyMenu,
+    });
   };
   return (
     <main
@@ -70,6 +98,7 @@ const Page = () => {
         }}
         className="w-full"
       >
+        <DatePicker range={menuRange} onSelect={onChangeDate} />
         {Object.keys(weeklyMenu).map((weeklyMenuKey) => {
           return (
             <MenuCard
@@ -85,7 +114,7 @@ const Page = () => {
           );
         })}
 
-        <Button onClick={() => submitMenu()}>Submit</Button>
+        <Button onClick={() => handleSubmit()}>Submit</Button>
       </Box>
     </main>
   );

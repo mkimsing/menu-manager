@@ -103,25 +103,22 @@ export interface Database {
       }
       menu_period: {
         Row: {
+          active_start_date: string | null
           created_at: string
-          end_date: string | null
           id: number
           name: string | null
-          start_date: string | null
         }
         Insert: {
+          active_start_date?: string | null
           created_at?: string
-          end_date?: string | null
           id?: number
           name?: string | null
-          start_date?: string | null
         }
         Update: {
+          active_start_date?: string | null
           created_at?: string
-          end_date?: string | null
           id?: number
           name?: string | null
-          start_date?: string | null
         }
         Relationships: []
       }

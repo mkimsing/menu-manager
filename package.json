@@ -17,9 +17,10 @@
     "@mui/material": "^5.14.11",
     "@supabase-cache-helpers/postgrest-swr": "^1.1.13",
     "@supabase/supabase-js": "^2.38.3",
-    "@wojtekmaj/react-daterange-picker": "^5.4.4",
+    "date-fns": "^2.30.0",
     "next": "latest",
     "react": "latest",
+    "react-day-picker": "^8.9.1",
     "react-dom": "latest",
     "swr": "^2.2.4"
   },
